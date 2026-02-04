@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Settings</title>
+</head>
+<body>
+    <h1>Select Series</h1>
+    <form method="POST" action="{{ url_for('settings') }}">
+        <label for="series">Series:</label>
+        <select name="series" id="series">
+            {% for s in ['CUP', 'XFINITY', 'TRUCKS', 'ARCA'] %}
+                <option value="{{ s }}" {% if s == current_series %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{{ url_for('pylon_control') }}">Back to Control Panel</a></p>
+</body>
+</html>

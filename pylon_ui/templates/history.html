@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pylon Feed History</title>
+</head>
+<body>
+    <h1>Feed Lap History (Last 15 Minutes)</h1>
+    <table border="1">
+        <tr>
+            <th>Timestamp</th>
+            <th>Lap Number</th>
+        </tr>
+        {% for entry in history %}
+        <tr>
+            <td>{{ entry.timestamp }}</td>
+            <td>{{ entry.lap }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><a href="{{ url_for('index') }}">Back to Home</a></p>
+</body>
+</html>

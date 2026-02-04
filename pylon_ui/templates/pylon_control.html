@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Pylon Control</title></head>
+<body>
+<h1>Pylon Process Control</h1>
+<p>Current Status: {{ status }}</p>
+
+<form method="post">
+    <button name="action" value="start">Start Pylon</button>
+    <button name="action" value="stop">Stop Pylon</button>
+</form>
+
+<p><a href="{{ url_for('index') }}">Back to Home</a></p>
+<p><a href="{{ url_for('logout') }}">Logout</a></p>
+</body>
+</html>

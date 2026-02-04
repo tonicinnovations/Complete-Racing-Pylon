@@ -1,0 +1,15 @@
+{
+  "series": "CUP",
+  "display": "both",
+  "favorite_driver": 2,
+  "sync_delay": 0.0,
+  "show_deltas": true,
+  "auto_restart": true,
+  "led_rows": 64,
+  "led_cols": 32,
+  "led_chain": 16,
+  "led_gpio_mapping": "adafruit-hat",
+  "led_rgb_sequence": "RGB",
+  "led_brightness": 100,
+  "led_pixel_mapper": "Rotate:270"
+}
