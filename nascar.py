@@ -2,6 +2,7 @@
 
 import os
 import time
+import threading
 from ApiClient import ApiClient
 from Colors import Colors
 from FlagStatus import FlagStatus
@@ -51,6 +52,25 @@ class RunText(SampleBase):
         greenColor = graphics.Color(0, 255, 0)
         redColor = graphics.Color(255, 0, 0)
         yellowColor = graphics.Color(255, 255, 0)
+
+        # Threading setup for non-blocking data fetch
+        feed_lock = threading.Lock()
+        new_feed = [None]  # Use list to allow modification in thread
+        fetch_interval = 2  # seconds between API calls
+
+        def fetch_data():
+            while True:
+                try:
+                    fetched = client.getLiveFeed(series)
+                    with feed_lock:
+                        new_feed[0] = fetched
+                except Exception:
+                    pass  # Keep using old data on error
+                time.sleep(fetch_interval)
+
+        # Start background data fetching thread
+        fetch_thread = threading.Thread(target=fetch_data, daemon=True)
+        fetch_thread.start()
 
         # Use actual matrix dimensions
         matrix_width = self.matrix.width
@@ -154,8 +174,14 @@ class RunText(SampleBase):
                     break
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-            time.sleep(2)
-            feed = client.getLiveFeed(series)
+
+            # Check for new data without blocking
+            with feed_lock:
+                if new_feed[0] is not None:
+                    feed = new_feed[0]
+                    new_feed[0] = None
+
+            time.sleep(0.05)  # Small delay for smooth display refresh
 
 if __name__ == "__main__":
     run_text = RunText()
